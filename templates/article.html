@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block left_content %}
+   <div class="articlecss">
+    <div class="title">
+        <h2>{{ article.title }}</h2>
+        <div class="postmeta">
+          <span class="postmeta_author">{{ article.user.username }}</span>
+          <span class="postmeta_category"><a href="" rel="category">{{ article.item.title }}</a></span>
+          <span class="postmeta_time">{{ article.publish_date | date:'Y-m-d' }}</span>
+        </div>
+    </div>
+        <div class="article">
+         <p> {{ article.content| safe }}</p>
+        </div>
+        <span class="tags">
+            {% for tag in article.tags.all %}
+            <a href="{% url 'tag' %}?tagid={{ tag.id }}" rel="tag">{{ tag.name }}&nbsp;&nbsp;</a>
+            {% endfor %}
+        </span>
+
+  </div>
+
+
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block left_content %}
+     <div class="topnews">
+      <h2>标签{{ request.GET.tag }}</h2>
+      {% for article in article_list %}
+      <div class="blogs">
+        <ul>
+          <h3><a href="{% url 'article' %}?id={{ article.id }}">{{ article.title }}</a></h3>
+          <p><a href="{% url 'article' %}?id={{ article.id }}">{{ article.desc }}</a></p>
+          <p class="autor"><span class="lm f_l">
+              {% for tag in article.tag.all %}
+                  <a href="/">{{ tag.name }}</a>&nbsp;</span>
+              {% endfor %}
+              <span class="dtime f_l">{{ article.date_publish | date:'Y-m-d' }}</span>
+        </ul>
+      </div>
+      {% endfor %}
+    </div>
+    {% if article_list.paginator.num_pages > 1 %}
+         <div class="more">
+                <span class="step-links">
+               {% if article_list.has_previous %}
+                      <a href="{{ curr_url }}&page={{ article_list.previous_page_number }}">上一页</a>
+               {% endif %}
+              <span class="current">
+                      Page {{ article_list.number }} of {{  article_list.paginator.num_pages }}.
+              </span>
+               <span class="current">
+              {% if article_list.has_next %}
+                    <a href="{{ curr_url }}&page={{ article_list.next_page_number }}" class="nextpage">下一页</a>
+                    <a  class="nextpage2"></a>
+              {% endif %}
+              </span>
+         </div>
+     {% endif %}
+{% endblock %}
